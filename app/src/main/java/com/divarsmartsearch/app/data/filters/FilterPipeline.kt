@@ -89,13 +89,16 @@ class FilterPipeline @Inject constructor(
         listings: List<ListingEntity>,
     ): List<ListingEntity> {
         for (listing in listings) {
+            val price = listing.price
+            val area = listing.area
+            val pricePerMeter = listing.pricePerMeter
             val outOfRange = when {
-                savedSearch.minPrice != null && listing.price != null && listing.price < savedSearch.minPrice -> true
-                savedSearch.maxPrice != null && listing.price != null && listing.price > savedSearch.maxPrice -> true
-                savedSearch.minArea != null && listing.area != null && listing.area < savedSearch.minArea -> true
-                savedSearch.maxArea != null && listing.area != null && listing.area > savedSearch.maxArea -> true
-                savedSearch.maxPricePerMeter != null && listing.pricePerMeter != null &&
-                    listing.pricePerMeter > savedSearch.maxPricePerMeter -> true
+                savedSearch.minPrice != null && price != null && price < savedSearch.minPrice -> true
+                savedSearch.maxPrice != null && price != null && price > savedSearch.maxPrice -> true
+                savedSearch.minArea != null && area != null && area < savedSearch.minArea -> true
+                savedSearch.maxArea != null && area != null && area > savedSearch.maxArea -> true
+                savedSearch.maxPricePerMeter != null && pricePerMeter != null &&
+                    pricePerMeter > savedSearch.maxPricePerMeter -> true
                 else -> false
             }
             if (outOfRange) listing.isVisible = false
